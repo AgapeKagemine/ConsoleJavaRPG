@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /*
+                     Data that avalaible when started running
         +===============================================================+
         + Food                         |   Price                        +
         +------------------------------|--------------------------------+
