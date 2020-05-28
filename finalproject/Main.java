@@ -98,6 +98,8 @@ public class Main implements Runnable{
     public void listMenuFood () {
         if (resto.isEmpty()) {
             System.out.println("No Food Available, sorry UwU");
+            System.out.println("Press Enter to Continue...");
+            sc.nextLine();
         }
         else {
             System.out.println("+==============================================================================+");
@@ -110,13 +112,13 @@ public class Main implements Runnable{
                 }
             }
         }
-        
-        
     }
 
     public void listMenuDrink () {
         if (resto.isEmpty()) {
             System.out.println("No Drink Available, sorry UwU");
+            System.out.println("Press Enter to Continue...");
+            sc.nextLine();
         }
         else {
             System.out.println("+==============================================================================+");
@@ -129,8 +131,6 @@ public class Main implements Runnable{
                 }
             }
         }
-        
-        
     }
 
     /*-------Menu Admin utk add item & remove item dari list menu makanan/minumannya-------*/
@@ -228,6 +228,27 @@ public class Main implements Runnable{
         }
         else {
             // TODO Remove Items
+            listMenuFood();
+            listMenuDrink();
+            System.out.println("+------------------------------------------------------------------------------+");
+
+            Integer menu = 0;
+
+            do{
+                try {
+                    System.out.printf("Which Menu to be Deleted: [1 - %d]: ", resto.size());
+                    menu = Integer.parseInt(sc.next());
+                } catch (Exception e) {
+                    System.out.printf("Which Menu to be Deleted: [1 - %d]: ", resto.size());
+                    menu = 0;
+                }
+            }while(menu < 1 || menu > resto.size()); sc.nextLine();
+
+            resto.remove(menu - 1);
+
+            System.out.println("Food / Drink Have Been Deleted!");
+            System.out.println("Press Enter to Continue...");
+            sc.nextLine();
         }
     }
 
@@ -281,7 +302,6 @@ public class Main implements Runnable{
     public void pay (){
         //TODO Customer Payment
     }
-    
     
     /*-------Start------*/
     public static void main (String[] args) {
