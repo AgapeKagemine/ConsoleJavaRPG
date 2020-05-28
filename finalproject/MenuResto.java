@@ -4,7 +4,6 @@ public abstract class MenuResto implements Interface {
     protected String name;
     protected int quantity;
     protected Long initialPrice;
-    protected String type;
 
     public MenuResto(String name, int quantity, Long initialPrice) {
         this.name = name;

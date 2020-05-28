@@ -3,7 +3,6 @@ package finalproject;
 public class Drink extends MenuResto {
     public Drink(String name, int quantity, Long initialPrice) {
         super(name, quantity, initialPrice);
-        this.type = "Drink";
         this.setInitialPrice(calculate(initialPrice));
     }
 
