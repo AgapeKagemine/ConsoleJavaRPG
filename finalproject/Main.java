@@ -31,7 +31,7 @@ public class Main implements Runnable{
     private Integer choice = 0;
     private String name = new String();
     private Integer quantity = -1;
-    private Long price = (long)0;
+    private Long price = null;
     private String type = new String();
 
     ArrayList<MenuResto> resto = new ArrayList<>();
@@ -99,13 +99,13 @@ public class Main implements Runnable{
             System.out.println("No Food Available, sorry UwU");
         }
         else {
-            System.out.println("+========================================================================+");
-            System.out.println("+ No | Food                           | Total Price                      +");
+            System.out.println("+==============================================================================+");
+            System.out.println("+ No | Food                           | Total Price                            +");
+            System.out.println("+==============================================================================+");
             for (int i = 0; i<resto.size(); i++) {
                 MenuResto R = resto.get(i);
-
                 if (R instanceof Food) {
-
+                    System.out.printf("+ %-2d | %-30s | %-38d +\n", i+1, R.getName(), R.getInitialPrice());
                 }
             }
         }
@@ -118,7 +118,15 @@ public class Main implements Runnable{
             System.out.println("No Drink Available, sorry UwU");
         }
         else {
-            
+            System.out.println("+==============================================================================+");
+            System.out.println("+ No | Drink                          | Total Price                            +");
+            System.out.println("+==============================================================================+");
+            for (int i = 0; i<resto.size(); i++) {
+                MenuResto R = resto.get(i);
+                if (R instanceof Drink){
+                    System.out.printf("+ %-2d | %-30s | %-38d +\n", i+1, R.getName(), R.getInitialPrice());
+                }
+            }
         }
         
         
@@ -131,7 +139,7 @@ public class Main implements Runnable{
                 System.out.println("+==============================================================================+");
                 System.out.println("+ Hello Mr/Mrs. Administrator                                                  +");
                 listMenuFood();
-                System.out.println("");
+                listMenuDrink();
                 System.out.println("+------------------------------------------------------------------------------+");
                 System.out.println("+ 1. Add Item to Menu                                                          +");
                 System.out.println("+ 2. Remove Item from Menu                                                     +");
@@ -165,7 +173,7 @@ public class Main implements Runnable{
         type = "";
         name = "";
         quantity = -1;
-        price = (long)0;
+        price = null;
 
         do{
             System.out.print("Input Type [Food || Drink]: ");
@@ -186,8 +194,12 @@ public class Main implements Runnable{
         }
 
         do {
-            System.out.print("Insert Quantity [More Than 0]: ");
-            quantity = Integer.parseInt(sc.next());
+            try {
+                System.out.print("Insert Quantity [More Than 0]: ");
+                quantity = Integer.parseInt(sc.next());
+            } catch (Exception e) {
+                quantity = -1;
+            }
         }while(quantity <= 0); sc.nextLine();
         
         do{
@@ -212,10 +224,9 @@ public class Main implements Runnable{
             System.out.println("No Data Available, sorry :/");
             System.out.println("Press Enter to Continue...");
             sc.nextLine();
-            
         }
         else {
-            
+            // TODO Remove Items
         }
     }
 
@@ -224,16 +235,16 @@ public class Main implements Runnable{
         String customer_name = new String();
         
         do{
-            System.out.println("Insert Name: ");
+            System.out.print("Insert Name: ");
             customer_name = sc.next();
         }while(customer_name.length() < 3);
 
         do{
             do{
                 System.out.println("+==============================================================================+");
-                System.out.printf("+ Hello Mr/Mrs. %-30s                                                 +", customer_name);
+                System.out.printf("+ Hello Mr/Mrs. %-30s                                 +\n", customer_name);
                 listMenuFood();
-                System.out.println("");
+                listMenuDrink();
                 System.out.println("+------------------------------------------------------------------------------+");
                 System.out.println("+ 1. Select Menu                                                               +");
                 System.out.println("+ 2. Pay                                                                       +");
@@ -262,12 +273,12 @@ public class Main implements Runnable{
 
     /*-----Menu untuk pilih makanan atau minuman (customers)-----*/
     public void customerMenu (){
-
+        // TODO Customer Menu Selection
     }
 
     /*-----Menu untuk pembayaran (customers)-----*/
     public void pay (){
-        
+        //TODO Customer Payment
     }
     
     
