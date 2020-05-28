@@ -36,6 +36,7 @@ public class Main implements Runnable{
     private String type = new String();
 
     ArrayList<MenuResto> resto = new ArrayList<>();
+    ArrayList<MenuResto> customer = new ArrayList<>();
 
     public void run(){
         Food f = new Food("Nasi Goreng", 2, (long)25000); resto.add(f);
@@ -97,7 +98,7 @@ public class Main implements Runnable{
     /*-------Buat nge print list menu makanan/minumannya-------*/
     public void listMenuFood () {
         if (resto.isEmpty()) {
-            System.out.println("No Food Available, sorry UwU");
+            System.out.println("No Food Available, sorry :/");
             System.out.println("Press Enter to Continue...");
             sc.nextLine();
         }
@@ -116,7 +117,7 @@ public class Main implements Runnable{
 
     public void listMenuDrink () {
         if (resto.isEmpty()) {
-            System.out.println("No Drink Available, sorry UwU");
+            System.out.println("No Drink Available, sorry :/");
             System.out.println("Press Enter to Continue...");
             sc.nextLine();
         }
@@ -217,6 +218,9 @@ public class Main implements Runnable{
             resto.add(d);
         }
 
+        System.out.println("Data Has Been Added!");
+        System.out.println("Press Enter to Continue...");
+        sc.nextLine();
     }
     
     /*-------Utk remove items (buat Admin)-------*/
@@ -227,7 +231,6 @@ public class Main implements Runnable{
             sc.nextLine();
         }
         else {
-            // TODO Remove Items
             listMenuFood();
             listMenuDrink();
             System.out.println("+------------------------------------------------------------------------------+");
@@ -239,7 +242,6 @@ public class Main implements Runnable{
                     System.out.printf("Which Menu to be Deleted: [1 - %d]: ", resto.size());
                     menu = Integer.parseInt(sc.next());
                 } catch (Exception e) {
-                    System.out.printf("Which Menu to be Deleted: [1 - %d]: ", resto.size());
                     menu = 0;
                 }
             }while(menu < 1 || menu > resto.size()); sc.nextLine();
@@ -254,53 +256,84 @@ public class Main implements Runnable{
 
     /*-------Menu Customers-------*/
     public void menuCustomer () {
-        String customer_name = new String();
-        
-        do{
-            System.out.print("Insert Name: ");
-            customer_name = sc.next();
-        }while(customer_name.length() < 3);
-
-        do{
-            do{
-                System.out.println("+==============================================================================+");
-                System.out.printf("+ Hello Mr/Mrs. %-30s                                 +\n", customer_name);
-                listMenuFood();
-                listMenuDrink();
-                System.out.println("+------------------------------------------------------------------------------+");
-                System.out.println("+ 1. Select Menu                                                               +");
-                System.out.println("+ 2. Pay                                                                       +");
-                System.out.println("+ 3. Exit                                                                      +");
-                System.out.println("+------------------------------------------------------------------------------+");
-                System.out.print("Your Choice: ");
-                try {
-                    choice = Integer.parseInt(sc.next());
-                } catch (Exception e) {
-                    System.out.println("Error! Input must be a number between 1 to 3");
-                    System.out.println("Please Try Again!");
-                    choice = 0;
-                }
-            }while(choice < 1 || choice > 3);
+        if(resto.isEmpty()){
+            System.out.println("Restaurant was Empty...");
+            System.out.println("Press Enter to Continue...");
+            sc.nextLine();
+        }
+        else{
+            String customer_name = new String();
             
-            switch(choice){
-                case 1:
-                    customerMenu();
-                    break;
-                case 2:
-                    pay();
-                    break;
-            }
-        }while(choice != 3);
+            do{
+                System.out.print("Insert Name: ");
+                customer_name = sc.next();
+            }while(customer_name.length() < 3);
+
+            do{
+                do{
+                    System.out.println("+==============================================================================+");
+                    System.out.printf("+ Hello Mr/Mrs. %-30s                                 +\n", customer_name);
+                    System.out.println("+------------------------------------------------------------------------------+");
+                    System.out.println("+ 1. Select Menu                                                               +");
+                    System.out.println("+ 2. Pay                                                                       +");
+                    System.out.println("+ 3. Exit                                                                      +");
+                    System.out.println("+------------------------------------------------------------------------------+");
+                    System.out.print("Your Choice: ");
+                    try {
+                        choice = Integer.parseInt(sc.next());
+                    } catch (Exception e) {
+                        System.out.println("Error! Input must be a number between 1 to 3");
+                        System.out.println("Please Try Again!");
+                        choice = 0;
+                    }
+                }while(choice < 1 || choice > 3);
+                
+                switch(choice){
+                    case 1:
+                        customerMenu();
+                        break;
+                    case 2:
+                        pay();
+                        break;
+                }
+            }while(choice != 3);
+        }
     }
 
-    /*-----Menu untuk pilih makanan atau minuman (customers)-----*/
+    /*-----Menu untuk pilihan makanan atau minuman (customers)-----*/
     public void customerMenu (){
         // TODO Customer Menu Selection
+        if (resto.isEmpty()) {
+            System.out.println("No Data Available, sorry :/");
+            System.out.println("Press enter to continue...");
+            sc.nextLine();
+        }
+        else {
+            listMenuFood();
+            listMenuDrink();
+            System.out.println("+------------------------------------------------------------------------------+");
+            Integer menu = 0;
+
+            do{
+                try {
+                    System.out.printf("Which Menu Would You Like to Buy? [1 - %d]: ", resto.size());
+                    menu = Integer.parseInt(sc.next());
+                } catch (Exception e) {
+                    menu = 0;
+                }
+            }while(menu < 1 || menu > resto.size()); sc.nextLine();
+            resto.get(menu - 1);
+            System.out.println("+ Thank you for choosing the menu! :D                                          +");
+            System.out.println("Press enter to go back to the customers menu...");
+            sc.nextLine();
+        }
     }
 
     /*-----Menu untuk pembayaran (customers)-----*/
     public void pay (){
         //TODO Customer Payment
+        System.out.println("Press Enter to Continue...");
+        sc.nextLine();
     }
     
     /*-------Start------*/
