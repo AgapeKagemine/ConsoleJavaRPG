@@ -8,7 +8,6 @@ public class Drink extends MenuResto {
 
     @Override
     public Long calculate(Long price) {
-        // TODO calculate method
         Double temp = price + (price * tax);
         return temp.longValue();
     }

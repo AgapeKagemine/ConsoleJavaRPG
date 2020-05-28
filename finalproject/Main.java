@@ -302,7 +302,6 @@ public class Main implements Runnable{
 
     /*-----Menu untuk pilihan makanan atau minuman (customers)-----*/
     public void customerMenu (){
-        // TODO Customer Menu Selection
         if (resto.isEmpty()) {
             System.out.println("No Data Available, sorry :/");
             System.out.println("Press enter to continue...");
@@ -331,7 +330,6 @@ public class Main implements Runnable{
 
     /*-----Menu untuk pembayaran (customers)-----*/
     public void pay (){
-        //TODO Customer Payment
         System.out.println("Press Enter to Continue...");
         sc.nextLine();
     }
