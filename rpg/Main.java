@@ -1,21 +1,26 @@
 package rpg;
 
-import java.util.Scanner;
-
 // TODO: Gacha
 // TODO: Implements MultiThreadding
-// TODO: HashMap for Storing Weapon List
 // TODO: Recheck
 // TODO: Documentation
+// TODO: Make Heal
+// TODO: Damage Calculation + Crit Chances
+// TODO: Boss Lines
+// TODO: Special Interactions
+// TODO: Try To Make Pixel Pics
+// TODO: Interface
 
 public class Main {
     /*-----Init-----*/
-    Scanner sc = new Scanner(System.in);
+    java.util.Scanner sc = new java.util.Scanner(System.in);
+    java.util.ArrayList<equipment> list = new java.util.ArrayList<>();
+    Character player = new Character("", 30, 5);
 
     /*-----Main Menu-----*/
-    public void menu(){
+    public void menu () {
         // TODO: Main Menu
-        int choice;
+        int choice = 0;
         do {
             do {
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
@@ -26,8 +31,17 @@ public class Main {
                 System.out.println("+                                                           +");
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.println("+                                                           +");
+                System.out.printf("+                Hero: %-10s                           +\n", player.getName());
+                System.out.printf("+                Health Point: %-4d                         +\n", player.getHp());
+                System.out.printf("+                Attack Power: %-4d                         +\n", player.getAp());
+                System.out.printf("+                Weapon: %-26s         +\n", player.getEquipWeapon());
+                System.out.printf("+                Armor: %-27s         +\n", player.getEquipArmor());
+                System.out.printf("+                Zenny: %-4d                                +\n", player.getZenny());
+                System.out.println("+                                                           +");
+                System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
+                System.out.println("+                                                           +");
                 System.out.println("+                      1. Battle                            +");
-                System.out.println("+                      2. Character Customization           +");
+                System.out.println("+                      2. Equipment                         +");
                 System.out.println("+                      3. Gacha                             +");
                 System.out.println("+                      4. Exit The Game                     +");
                 System.out.println("+                                                           +");
@@ -37,21 +51,29 @@ public class Main {
                     choice = Integer.parseInt(sc.next());
                 }
                 catch (Exception e) {
-                    System.out.println("Error! Input must be a number between 1 to 4!");
-                    System.out.println("Press enter to retry...");
+                    System.out.println("Error! Input Must Be A Number Between 1 to 4!");
+                    System.out.println("Press Enter to Retry...");
                     choice = 0;
-                    sc.nextLine();
-                }
+                }sc.nextLine();
             }while(choice < 1 || choice > 4);
             switch(choice) {
                 case 1:
+                    print();
                     battle();
+                    System.out.println("Press Enter to Continue..."); sc.nextLine();
+                    print();
                     break;
                 case 2:
+                    print();
                     charCustomization();
+                    System.out.println("Press Enter to Continue..."); sc.nextLine();
+                    print();
                     break;
                 case 3:
-
+                    print();
+                    menuGacha();
+                    System.out.println("Press Enter to Continue..."); sc.nextLine();
+                    print();
                     break;
             }
         }while(choice != 4);
@@ -60,20 +82,23 @@ public class Main {
     /*-----Menu Battle-----*/
     public void battle () {
         // TODO: Battle Menu
-        int boss;
+        int boss = 0;
         do {
             do {
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.println("+                                                                   +");
-                System.out.println("+                              *BOSSES*                             +");
-                System.out.println("+                    1. Galakron The Undying [Hard]                 +");
-                System.out.println("+                    2. Queen of Snakes: Medusa [Medium]            +");
-                System.out.println("+                    3. Talon The Mercenary [Easy]                  +");
-                System.out.println("+                    4. Goblins [Beginner]                          +");
+                System.out.println("+                             *BOSSES*                              +");
                 System.out.println("+                                                                   +");
                 System.out.println("+-------------------------------------------------------------------+");
                 System.out.println("+                                                                   +");
-                System.out.println("+                    5. Quit The Battle                             +");
+                System.out.println("+                    1. Goblins [Beginner]                          +");
+                System.out.println("+                    2. Talon The Mercenary [Easy]                  +");
+                System.out.println("+                    3. Queen of Snakes: Medusa [Medium]            +");
+                System.out.println("+                    4. Galakrond The Undying [Hard]                +");
+                System.out.println("+                                                                   +");
+                System.out.println("+-------------------------------------------------------------------+");
+                System.out.println("+                                                                   +");
+                System.out.println("+                    5. Back To Menu                                +");
                 System.out.println("+                                                                   +");
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.print("Your choice: ");
@@ -81,33 +106,32 @@ public class Main {
                     boss = Integer.parseInt(sc.next());
                 }
                 catch (Exception e) {
-                    System.out.println("Error! Input must be a number between 1 to 5!");
-                    System.out.println("Press enter to retry...");
+                    System.out.println("Error! Input Must Be A Number Between 1 to 5!");
+                    System.out.println("Press Enter to Retry...");
                     boss = 0;
-                    sc.nextLine();
-                }
+                }sc.nextLine();
             }while(boss < 1 || boss > 5);
             switch(boss) {
                 case 1:
-                    // TODO: Galakron Boss Fight
+                    // TODO: Goblins Boss Fight 
                     break;
                 case 2:
-                    // TODO: Medusa Boss Fight
-                    break;
-                case 3:
                     // TODO: Talon Boss Fight
                     break;
+                case 3:
+                    // TODO: Medusa Boss Fight 
+                    break;
                 case 4:
-                    // TODO: Goblins Boss Fight
+                    // TODO: Galakrond Boss Fight
                     break;
             }
         }while(boss != 5);
     }
 
     /*-----Boss Fight-----*/
-    public void bossFight    () {
-        // TODO: bossFight
-        int fightChoice;
+    public void bossFight () {
+        // TODO: 4 Boss
+        int fightChoice = 0;
         do {
             do {
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
@@ -119,7 +143,8 @@ public class Main {
                 System.out.println("+                                                           +");
                 System.out.println("+                         1. Attack                         +");
                 System.out.println("+                         2. Guard                          +");
-                System.out.println("+                         3. Run Away                       +");
+                System.out.println("+                         3. Heal                           +");
+                System.out.println("+                         4. Run Away                       +");
                 System.out.println("+                                                           +");
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.print("Your Decision: ");
@@ -127,29 +152,27 @@ public class Main {
                     fightChoice = Integer.parseInt(sc.next());
                 }
                 catch (Exception e) {
-                    System.out.println("Error! Input must be a number between 1 to 3!");
-                    System.out.println("Press enter to retry...");
+                    System.out.println("Error! Input Must Be A Number Between 1 to 4!");
+                    System.out.println("Press Enter to Retry...");
                     fightChoice = 0;
-                    sc.nextLine();
-                }
-            }while(fightChoice < 1 || fightChoice > 3);
-        }while(fightChoice != 3);
+                }sc.nextLine();
+            }while(fightChoice < 1 || fightChoice > 4);
+        }while(fightChoice != 4);
     }
 
     /*-----Menu Customization-----*/
     public void charCustomization () {
-        // TODO: Character Customization Menu
-        int customChoice;
+        // TODO: Enchance Weapon
+        int customChoice = 0;
         do {
             do {
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.println("+                                                                         +");
-                System.out.println("+                Choose The Gear that You Want to Upgrade:                +");
-                System.out.println("+                                 1. Weapon                               +");
-                System.out.println("+                                 2. Armor                                +");
-                System.out.println("+                                                                         +");
+                System.out.println("+                Choose The Gear that You Wish to Equip:                  +");
+                equip();
                 System.out.println("+-------------------------------------------------------------------------+");
-                System.out.println("+                                 3. Exit                                 +");
+                System.out.println("+                                                                         +");
+                System.out.println("+                                 0. Back                                 +");
                 System.out.println("+                                                                         +");
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.print("Your choice: ");
@@ -160,90 +183,139 @@ public class Main {
                     System.out.println("Error! Input must be a number between 1 to 3!");
                     System.out.println("Press enter to retry...");
                     customChoice = 0;
-                    sc.nextLine();
+                }sc.nextLine();
+            }while(customChoice < 0 || customChoice > 14);
+            if(customChoice > 0){
+                if(list.get(customChoice - 1).getCount() == 0){
+                    System.out.println("There Are No Weapon in Inventory");
+                    System.out.println("Press Enter to Continue..."); sc.nextLine();
+                }else{
+                    if(customChoice < 8){
+                        player.setEquipWeapon(list.get(customChoice - 1).getName());
+                        System.out.println("The Weaponpiece Called " + list.get(customChoice - 1).getName() + " Has Successfuly Been Equipped");
+                        player.setAp(player.getAp() + list.get(customChoice - 1).getAp());
+                        System.out.println("Press Enter to Continue..."); sc.nextLine();
+                    }else{
+                        player.setEquipArmor(list.get(customChoice - 1).getName());
+                        System.out.println("The Armorpiece Called " + list.get(customChoice - 1).getName() + " Has Successfuly Been Equipped");
+                        player.setHp(player.getHp() + list.get(customChoice - 1).getHp());
+                        System.out.println("Press Enter to Continue..."); sc.nextLine();
+                    }
                 }
-            }while(customChoice < 1 || customChoice > 3);
-            switch(customChoice) {
-                case 1:
-
-                    break;
-                case 2:
-
-                    break;
             }
-        }while(customChoice != 3);
+        }while(customChoice != 0);
     }
 
-    public void weapon () {
-        // TODO: Weapon Listing
-        int weaponChoice;
-        do {
-            do {
-                System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
-                System.out.println("+                                                             +");
-                System.out.println("+                     Choose Your Weapon:                     +");
-                System.out.println("+                 1. Copper Sword (+5 damage)                 +");
-                System.out.println("+                 2. Iron Sword (+10 damage)                  +");
-                System.out.println("+                 3. Gold Sword (+15 damage)                  +");
-                System.out.println("+                 4. Diamond Sword (+25 damage)               +");
-                System.out.println("+                 5. Nightedge (+30 damage)                   +");
-                System.out.println("+                 6. Blade of The Ruin King (+40 damage)      +");
-                System.out.println("+                 7. Terrablade (+100 damage)                 +");
-                System.out.println("+                                                             +");
-                System.out.println("+-------------------------------------------------------------+");
-                System.out.println("+                 8. Go back                                  +");
-                System.out.println("+                                                             +");
-                System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
-                System.out.print("Your choice: ");
-                try {
-                    weaponChoice = Integer.parseInt(sc.next());
-                }
-                catch (Exception e) {
-                    System.out.println("Error! Input must be a number between 1 to 8!");
-                    System.out.println("Press enter to retry...");
-                    weaponChoice = 0;
-                    sc.nextLine();
-                }
-            }while(weaponChoice < 1 || weaponChoice > 8);
-            
-        }while(weaponChoice != 8);
+    public void equip () {
+        System.out.println("+                                                                         +");
+        int a = 1;
+        for(equipment x : list){
+            if(a == 1){
+                System.out.println("+-------------------------------------------------------------------------+");
+                System.out.println("+                                 Weapon                                  +");
+                System.out.println("+-------------------------------------------------------------------------+");
+            }else if(a == 8){
+                System.out.println("+-------------------------------------------------------------------------+");
+                System.out.println("+                                 Armor                                   +");
+                System.out.println("+-------------------------------------------------------------------------+");
+            }
+            if(x instanceof Weapon){
+                System.out.printf("+               %-2d" + ". %-25s x%-3d" + "( +%-3d" + " Damage )         +\n", a, x.getName(), x.getCount(), x.getAp());
+            }else{
+                System.out.printf("+               %-2d" + ". %-25s x%-3d" + "  ( +%-3d" + " HP )           +\n", a, x.getName(), x.getCount(), x.getHp());
+            }
+            a++;
+        }
     }
 
-    public void armor () {
-        // TODO: Armor Listing
-        int armorChoice;
+    public void menuGacha () {
+        // TODO: Gacha Payment
+        int rollOptions = 0;
         do {
             do {
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.println("+                                                                 +");
-                System.out.println("+                      Choose Your Armor:                         +");
-                System.out.println("+                   1. Copper Plate (+10 Hp)                      +");
-                System.out.println("+                   2. Iron Plate (+15 Hp)                        +");
-                System.out.println("+                   3. Gold Plate (+25 Hp)                        +");
-                System.out.println("+                   4. Diamond Plate (+40 Hp)                     +");
-                System.out.println("+                   5. Galakron Plate (+60 Hp)                    +");
-                System.out.println("+                   6. Mirror Plate (+30 Hp)                      +");
-                System.out.println("+                   7. Terra Plate (+100 Hp)                      +");
+                System.out.println("+             Select How Many Times You Want to Roll              +");
+                System.out.println("+            ----------------------------------------             +");
+                System.out.println("+                           1. 1 Roll                             +");
+                System.out.println("+                           2. 3 Rolls                            +");
                 System.out.println("+                                                                 +");
                 System.out.println("+-----------------------------------------------------------------+");
-                System.out.println("+                   8. Go back                                    +");
+                System.out.println("+                           3. Go Back                            +");
                 System.out.println("+                                                                 +");
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.print("Your Choice: ");
                 try {
-                    armorChoice = Integer.parseInt(sc.next());
+                    rollOptions = Integer.parseInt(sc.next());
                 }
                 catch (Exception e) {
-                    System.out.println("Error! Input must be a number between 1 to 8!");
+                    System.out.println("Error! Input must be a number between 1 to 3!");
                     System.out.println("Press enter to retry...");
-                    armorChoice = 0;
-                    sc.nextLine();
+                    rollOptions = 0;
+                }sc.nextLine();
+                switch(rollOptions){
+                    case 1:
+                        gacha solo = new gacha(list);
+                        solo.roll(1);
+                        break;
+                    case 2:
+                        gacha tri = new gacha(list);
+                        tri.roll(3);
+                        break;
                 }
-            }while(armorChoice < 1 || armorChoice > 8);
-        }while(armorChoice != 8);
+            }while(rollOptions < 1 || rollOptions > 3);
+        }while(rollOptions != 3);
+    }
+
+    public void init(){
+        String name = new String();
+        do {
+            System.out.println("Warning! Players Name Can't Be Changed!");
+            System.out.print("Insert Players Name [10 Character Max.]: ");
+            name = sc.next();
+        }while(name.length() > 10);
+
+        player.setName(name);
+
+        Weapon e = new Weapon("Copper Sword", 0, 5, 1);
+        list.add(e);
+        e = new Weapon("Iron Sword", 0, 10, 0);
+        list.add(e);
+        e = new Weapon("Gold Sword", 0, 15, 0);
+        list.add(e);
+        e = new Weapon("Diamond Sword", 0, 25, 0);
+        list.add(e);
+        e = new Weapon("Nightedge", 0, 30, 0);
+        list.add(e);
+        e = new Weapon("Blade of The Ruin King", 0, 40, 0);
+        list.add(e);
+        e = new Weapon("Terra Blade", 0, 100, 0);
+        list.add(e);
+        
+        Armor d = new Armor("Copper Armor", 10, 0, 1);
+        list.add(d);
+        d = new Armor("Iron Plate", 15, 0, 0);
+        list.add(d);
+        d = new Armor("Gold Plate", 25, 0, 0);
+        list.add(d);
+        d = new Armor("Diamond Plate", 40, 0, 0);
+        list.add(d);
+        d = new Armor("Galakrond Plate", 60, 0, 0);
+        list.add(d);
+        d = new Armor("Mirror Plate", 30, 0, 0);
+        list.add(d);
+        d = new Armor("Terra Plate", 100, 0, 0);
+        list.add(d);
+    }
+
+    public void print(){
+        for(int x = 0; x <= 10; x++){
+            System.out.println("");
+        }
     }
 
     public Main() {
+        init();
         menu();
     }
 

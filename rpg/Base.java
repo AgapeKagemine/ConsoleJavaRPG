@@ -1,13 +1,12 @@
 package rpg;
 
 // TODO: Check Base Class
-
 public abstract class Base{
-    protected String name;
-    protected Integer hp;
-    protected Integer ap;
+    private String name;
+    private Integer hp;
+    private Integer ap;
 
-    protected Base(String name, int hp, int ap){
+    public Base(String name, int hp, int ap){
         this.name = name;
         this.hp = hp;
         this.ap = ap;

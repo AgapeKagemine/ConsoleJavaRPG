@@ -1,9 +1,8 @@
 package rpg;
 
 // TODO: Check Armor Class
-
-public class Armor extends Base{
-    public Armor(String name, int hp, int ap) {
-        super(name, hp, 0);
+public class Armor extends equipment {
+    public Armor(String name, int hp, int ap, int count) {
+        super(name, hp, 0, count);
     }
 }
