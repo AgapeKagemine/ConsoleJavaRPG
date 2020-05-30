@@ -229,16 +229,17 @@ public class Main {
     }
 
     public void menuGacha () {
-        // TODO: Gacha Payment
         int rollOptions = 0;
         do {
             do {
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.println("+                                                                 +");
+                System.out.printf("+                          Zenny: %-4d                            +\n", player.getZenny());
+                System.out.println("+                                                                 +");
                 System.out.println("+             Select How Many Times You Want to Roll              +");
                 System.out.println("+            ----------------------------------------             +");
-                System.out.println("+                           1. 1 Roll                             +");
-                System.out.println("+                           2. 3 Rolls                            +");
+                System.out.println("+                       1. 1 Roll (5 Zenny)                       +");
+                System.out.println("+                      2. 3 Rolls (15 Zenny)                      +");
                 System.out.println("+                                                                 +");
                 System.out.println("+-----------------------------------------------------------------+");
                 System.out.println("+                           3. Go Back                            +");
@@ -255,12 +256,24 @@ public class Main {
                 }sc.nextLine();
                 switch(rollOptions){
                     case 1:
-                        gacha solo = new gacha(list);
-                        solo.roll(1);
+                        if(player.getZenny() < 5){
+                            System.out.println("Not Enough Zenny!");
+                            System.out.println("Press Enter to Continue..."); sc.nextLine();
+                        }else{
+                            player.setZenny(player.getZenny() - 5);
+                            gacha solo = new gacha(list);
+                            solo.roll(1);
+                        }
                         break;
                     case 2:
+                    if(player.getZenny() < 15){
+                        System.out.println("Not Enough Zenny!");
+                        System.out.println("Press Enter to Continue..."); sc.nextLine();
+                    }else{
+                        player.setZenny(player.getZenny() - 15);
                         gacha tri = new gacha(list);
                         tri.roll(3);
+                        }
                         break;
                 }
             }while(rollOptions < 1 || rollOptions > 3);

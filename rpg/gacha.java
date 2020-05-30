@@ -11,7 +11,7 @@ public class gacha{
     void roll(int times){
         for(int x = 0; x < times; x++){
             Thread t = new Thread(new rng(list));
-
+            t.setName("Roll " + (x+1));
             t.start();
             
             try {
