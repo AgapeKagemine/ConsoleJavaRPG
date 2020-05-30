@@ -2,7 +2,6 @@ package rpg;
 
 // TODO: Recheck
 // TODO: Documentation
-// TODO: Zenny Drop
 
 public class Main implements Interface {
     /*-----Init-----*/
