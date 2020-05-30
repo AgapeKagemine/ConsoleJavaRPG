@@ -2,9 +2,7 @@ package rpg;
 
 // TODO: Recheck
 // TODO: Documentation
-// TODO: Boss Lines
-// TODO: Special Interactions
-// TODO: Try To Make Pixel Pics
+// TODO: Zenny Drop
 
 public class Main implements Interface {
     /*-----Init-----*/
@@ -14,7 +12,6 @@ public class Main implements Interface {
 
     /*-----Main Menu-----*/
     public void menu () {
-        // TODO: Main Menu
         int choice = 0;
         do {
             do {
@@ -76,7 +73,6 @@ public class Main implements Interface {
 
     /*-----Menu Battle-----*/
     public void battle () {
-        // TODO: Battle Menu
         int boss = 0;
         do {
             do {
@@ -217,8 +213,6 @@ public class Main implements Interface {
 
     /*-----Menu Customization-----*/
     public void charCustomization () {
-        // TODO: Enchance Weapon
-        // TODO: Check Char Customization
         int customChoice = 0;
         do {
             do {
