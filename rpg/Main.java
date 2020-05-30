@@ -104,19 +104,19 @@ public class Main implements Interface {
             }while(boss < 1 || boss > 5);
             switch(boss) {
                 case 1:
-                    Boss goblin = new Boss("Goblins", 40, 3, 5);
+                    Boss goblin = new Boss("Goblins", 40, 3, 5, 2);
                     bossFight(goblin);
                     break;
                 case 2:
-                    Boss talon = new Boss("Talon The Mercenary", 100, 5, 10);
+                    Boss talon = new Boss("Talon The Mercenary", 100, 5, 10, 5);
                     bossFight(talon);
                     break;
                 case 3:
-                    Boss medusa = new Boss("Queen of Snakes: Medusa", 250, 15, 25);
+                    Boss medusa = new Boss("Queen of Snakes: Medusa", 250, 15, 25, 8);
                     bossFight(medusa);
                     break;
                 case 4:
-                    Boss galakrond = new Boss("Galakrond The Undying", 500, 30, 50);
+                    Boss galakrond = new Boss("Galakrond The Undying", 500, 30, 50, 10);
                     bossFight(galakrond);
                     break;
             }
@@ -189,12 +189,16 @@ public class Main implements Interface {
             }    
             //klo boss nya mati
             if(boss.getHp() <= 0) {
+                java.util.Random random_zenny = new java.util.Random();
+                int loot = random_zenny.nextInt(boss.getMaxZen()) + 1;
+                player.setZenny(player.getZenny() + loot);
+                System.out.println("You Got " + loot + " Zenny");
                 System.out.println("Mission Accomplished!");
                 System.out.println("Press Enter to Continue..."); sc.nextLine();
             }
-            //klo playernya mati
+            //klo playernya mati 
             else if(health <= 0){
-                System.out.println("Player Killed, Equip Better Weapon or Armor!");
+                System.out.println("You Have Been Slain, Try Again Next Time!");
                 System.out.println("Press Enter to Continue..."); sc.nextLine();
             }
         }while(fightChoice != 3 && (boss.getHp() > 0 && health > 0));
@@ -322,7 +326,6 @@ public class Main implements Interface {
                     case 1:
                         if(player.getZenny() < 5){
                             System.out.println("Not Enough Zenny!");
-                            System.out.println("Press Enter to Continue..."); sc.nextLine();
                         }else{
                             player.setZenny(player.getZenny() - 5);
                             gacha solo = new gacha(list);
@@ -332,7 +335,6 @@ public class Main implements Interface {
                     case 2:
                     if(player.getZenny() < 15){
                         System.out.println("Not Enough Zenny!");
-                        System.out.println("Press Enter to Continue..."); sc.nextLine();
                     }else{
                         player.setZenny(player.getZenny() - 15);
                         gacha tri = new gacha(list);
@@ -340,6 +342,7 @@ public class Main implements Interface {
                         }
                         break;
                 }
+                System.out.println("Press Enter to Continue..."); sc.nextLine();
             }while(rollOptions < 1 || rollOptions > 3);
         }while(rollOptions != 3);
     }
