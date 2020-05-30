@@ -1,8 +1,7 @@
 package rpg;
 
-// TODO: Check Base Class
 public abstract class Base{
-    private String name;
+    private String name = new String();
     private Integer hp;
     private Integer ap;
 

@@ -1,14 +1,12 @@
 package rpg;
 
-// TODO: Check Character Class
+public class Character extends Base implements Interface{
+    private Integer zenny = base_zenny;
+    private String equipWeapon = new String();
+    private String equipArmor = new String();
 
-public class Character extends Base{
-    private Integer zenny = 15;
-    private String equipWeapon = "Copper Sword";
-    private String equipArmor = "Copper Plate";
-
-    public Character(String name, int hp, int ap) {
-        super(name, hp, ap);
+    public Character(String name) {
+        super(name, base_char_hp, base_char_attack);
     }
 
     public Integer getZenny() {

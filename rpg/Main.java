@@ -1,21 +1,16 @@
 package rpg;
 
-// TODO: Gacha
-// TODO: Implements MultiThreadding
 // TODO: Recheck
 // TODO: Documentation
-// TODO: Make Heal
-// TODO: Damage Calculation + Crit Chances
 // TODO: Boss Lines
 // TODO: Special Interactions
 // TODO: Try To Make Pixel Pics
-// TODO: Interface
 
-public class Main {
+public class Main implements Interface {
     /*-----Init-----*/
     java.util.Scanner sc = new java.util.Scanner(System.in);
     java.util.ArrayList<equipment> list = new java.util.ArrayList<>();
-    Character player = new Character("", 30, 5);
+    Character player = new Character("Player");
 
     /*-----Main Menu-----*/
     public void menu () {
@@ -52,7 +47,7 @@ public class Main {
                 }
                 catch (Exception e) {
                     System.out.println("Error! Input Must Be A Number Between 1 to 4!");
-                    System.out.println("Press Enter to Retry...");
+                    System.out.println("Press Enter to Retry..."); sc.nextLine();
                     choice = 0;
                 }sc.nextLine();
             }while(choice < 1 || choice > 4);
@@ -107,44 +102,51 @@ public class Main {
                 }
                 catch (Exception e) {
                     System.out.println("Error! Input Must Be A Number Between 1 to 5!");
-                    System.out.println("Press Enter to Retry...");
+                    System.out.println("Press Enter to Retry..."); sc.nextLine();
                     boss = 0;
                 }sc.nextLine();
             }while(boss < 1 || boss > 5);
             switch(boss) {
                 case 1:
-                    // TODO: Goblins Boss Fight 
+                    Boss goblin = new Boss("Goblins", 40, 3, 5);
+                    bossFight(goblin);
                     break;
                 case 2:
-                    // TODO: Talon Boss Fight
+                    Boss talon = new Boss("Talon The Mercenary", 100, 5, 10);
+                    bossFight(talon);
                     break;
                 case 3:
-                    // TODO: Medusa Boss Fight 
+                    Boss medusa = new Boss("Queen of Snakes: Medusa", 250, 15, 25);
+                    bossFight(medusa);
                     break;
                 case 4:
-                    // TODO: Galakrond Boss Fight
+                    Boss galakrond = new Boss("Galakrond The Undying", 500, 30, 50);
+                    bossFight(galakrond);
                     break;
             }
         }while(boss != 5);
     }
 
     /*-----Boss Fight-----*/
-    public void bossFight () {
-        // TODO: 4 Boss
+    public void bossFight (Boss boss) {
         int fightChoice = 0;
+        int health = player.getHp();
         do {
             do {
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.println("+                                                           +");
-                System.out.println("+                        {BOSS NAME}                        +");
-                System.out.println("+                         {BOSS HP}                         +");
+                System.out.printf("+            %-25s                      +\n", boss.getName());
+                System.out.printf("+            HP: %-3d                                        +\n", boss.getHp());
                 System.out.println("+                                                           +");
                 System.out.println("+-----------------------------------------------------------+");
                 System.out.println("+                                                           +");
-                System.out.println("+                         1. Attack                         +");
-                System.out.println("+                         2. Guard                          +");
-                System.out.println("+                         3. Heal                           +");
-                System.out.println("+                         4. Run Away                       +");
+                System.out.printf("+             %-10s                                          +\n", player.getName());
+                System.out.printf("+             Health Point: %-3d                             +\n", health);
+                System.out.printf("+             Attack Power: %-3d                             +\n", player.getAp());
+                System.out.println("+                                                           +");
+                System.out.println("+                     1. Attack                             +");     
+                System.out.println("+                     2. Heal                               +");
+                System.out.println("+                     3. Run Away                           +");
                 System.out.println("+                                                           +");
                 System.out.println("+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+");
                 System.out.print("Your Decision: ");
@@ -153,16 +155,70 @@ public class Main {
                 }
                 catch (Exception e) {
                     System.out.println("Error! Input Must Be A Number Between 1 to 4!");
-                    System.out.println("Press Enter to Retry...");
+                    System.out.println("Press Enter to Retry..."); sc.nextLine();
                     fightChoice = 0;
                 }sc.nextLine();
-            }while(fightChoice < 1 || fightChoice > 4);
-        }while(fightChoice != 4);
+            }while(fightChoice < 1 || fightChoice > 3);
+            System.out.println("");
+            //kalo dua"nya msh idup
+            if(health > 0 && boss.getHp() > 0 && fightChoice != 3){  
+                switch(fightChoice) {
+                    case 1: /*-------Attack-------*/
+                        int temp = searchEquip();
+                        Weapon w = new Weapon(list.get(temp).getName(), list.get(temp).getAp(), 0);
+                        int damage = java.util.concurrent.ThreadLocalRandom.current().nextInt(w.getMinAttack(), w.getMaxAttack()) + 5;
+                        System.out.println(player.getName() + " Dealt " + damage + " Damage");
+                        boss.setHp(boss.getHp() - damage);
+                        break;
+                    case 2: /*-------Heal--------*/
+                        if(health < player.getHp()){
+                            int diff = player.getHp() - health;
+                            if(player.getHp() > 50)
+                                if(diff < 50)
+                                    health = health + diff;
+                                else
+                                    health = health + heal;
+                            else
+                                health = health + diff;
+                            System.out.println(player.getName() + " Recovered " + diff + " HP");
+                        }else{
+                            System.out.println("You Can't do This Anymore Due to Having Full Health");
+                        }
+                        break;
+                }
+                int boss_damage = java.util.concurrent.ThreadLocalRandom.current().nextInt(boss.getMinAP(), boss.getMaxAP());
+                // Boss Attack Player
+                System.out.println(boss.getName() + " Dealt " + boss_damage + " Damage");
+                health = health - boss_damage;
+            }    
+            //klo boss nya mati
+            if(boss.getHp() <= 0) {
+                System.out.println("Mission Accomplished!");
+                System.out.println("Press Enter to Continue..."); sc.nextLine();
+            }
+            //klo playernya mati
+            else if(health <= 0){
+                System.out.println("Player Killed, Equip Better Weapon or Armor!");
+                System.out.println("Press Enter to Continue..."); sc.nextLine();
+            }
+        }while(fightChoice != 3 && (boss.getHp() > 0 && health > 0));
+    }
+    
+    /*------Buat nyari index item yang mau di equip-------*/
+    public int searchEquip () {
+        int a = 0;
+        for(equipment x : list){
+            if(player.getEquipWeapon().equalsIgnoreCase(x.getName()))
+                break;
+            a++; 
+        }
+        return a;
     }
 
     /*-----Menu Customization-----*/
     public void charCustomization () {
         // TODO: Enchance Weapon
+        // TODO: Check Char Customization
         int customChoice = 0;
         do {
             do {
@@ -180,8 +236,8 @@ public class Main {
                     customChoice = Integer.parseInt(sc.next());
                 }
                 catch (Exception e) {
-                    System.out.println("Error! Input must be a number between 1 to 3!");
-                    System.out.println("Press enter to retry...");
+                    System.out.println("Error! Input Must Be A Number Between 0 to 14!");
+                    System.out.println("Press Enter to Retry..."); sc.nextLine();
                     customChoice = 0;
                 }sc.nextLine();
             }while(customChoice < 0 || customChoice > 14);
@@ -191,15 +247,27 @@ public class Main {
                     System.out.println("Press Enter to Continue..."); sc.nextLine();
                 }else{
                     if(customChoice < 8){
-                        player.setEquipWeapon(list.get(customChoice - 1).getName());
-                        System.out.println("The Weaponpiece Called " + list.get(customChoice - 1).getName() + " Has Successfuly Been Equipped");
-                        player.setAp(player.getAp() + list.get(customChoice - 1).getAp());
-                        System.out.println("Press Enter to Continue..."); sc.nextLine();
+                        if(!list.get(customChoice - 1).getName().equalsIgnoreCase(player.getEquipWeapon())){
+                            player.setEquipWeapon(list.get(customChoice - 1).getName());
+                            System.out.println("The Weaponpiece Called " + list.get(customChoice - 1).getName() 
+                                + " Has Successfuly Been Equipped");
+                            player.setAp(base_char_attack + list.get(customChoice - 1).getAp());
+                            System.out.println("Press Enter to Continue..."); sc.nextLine();
+                        }else{
+                            System.out.println(list.get(customChoice - 1).getName() + " Already Been Equipped...");
+                            System.out.println("Press Enter to Continue..."); sc.nextLine();
+                        }
                     }else{
-                        player.setEquipArmor(list.get(customChoice - 1).getName());
-                        System.out.println("The Armorpiece Called " + list.get(customChoice - 1).getName() + " Has Successfuly Been Equipped");
-                        player.setHp(player.getHp() + list.get(customChoice - 1).getHp());
-                        System.out.println("Press Enter to Continue..."); sc.nextLine();
+                        if(!list.get(customChoice - 1).getName().equalsIgnoreCase(player.getEquipArmor())){   
+                            player.setEquipArmor(list.get(customChoice - 1).getName());
+                            System.out.println("The Armorpiece Called " + list.get(customChoice - 1).getName() 
+                                + " Has Successfuly Been Equipped");
+                            player.setHp(base_char_hp + list.get(customChoice - 1).getHp());
+                            System.out.println("Press Enter to Continue..."); sc.nextLine();
+                        }else{
+                            System.out.println(list.get(customChoice - 1).getName() + " Already Been Equipped...");
+                            System.out.println("Press Enter to Continue..."); sc.nextLine();
+                        }
                     }
                 }
             }
@@ -220,9 +288,11 @@ public class Main {
                 System.out.println("+-------------------------------------------------------------------------+");
             }
             if(x instanceof Weapon){
-                System.out.printf("+               %-2d" + ". %-25s x%-3d" + "( +%-3d" + " Damage )         +\n", a, x.getName(), x.getCount(), x.getAp());
+                System.out.printf("+               %-2d" + ". %-25s x%-3d" + "( +%-3d" + " Damage )         +\n",
+                    a, x.getName(), x.getCount(), x.getAp());
             }else{
-                System.out.printf("+               %-2d" + ". %-25s x%-3d" + "  ( +%-3d" + " HP )           +\n", a, x.getName(), x.getCount(), x.getHp());
+                System.out.printf("+               %-2d" + ". %-25s x%-3d" + "  ( +%-3d" + " HP )           +\n", 
+                    a, x.getName(), x.getCount(), x.getHp());
             }
             a++;
         }
@@ -250,8 +320,8 @@ public class Main {
                     rollOptions = Integer.parseInt(sc.next());
                 }
                 catch (Exception e) {
-                    System.out.println("Error! Input must be a number between 1 to 3!");
-                    System.out.println("Press enter to retry...");
+                    System.out.println("Error! Input Must Be A Number Between 1 to 3!");
+                    System.out.println("Press Enter to Retry..."); sc.nextLine();
                     rollOptions = 0;
                 }sc.nextLine();
                 switch(rollOptions){
@@ -282,47 +352,52 @@ public class Main {
 
     public void init(){
         String name = new String();
+        
         do {
             System.out.println("Warning! Players Name Can't Be Changed!");
             System.out.print("Insert Players Name [10 Character Max.]: ");
-            name = sc.next();
+            name = sc.nextLine();
         }while(name.length() > 10);
 
-        player.setName(name);
-
-        Weapon e = new Weapon("Copper Sword", 0, 5, 1);
+        Weapon e = new Weapon("Copper Sword", 5, 1);
         list.add(e);
-        e = new Weapon("Iron Sword", 0, 10, 0);
+        e = new Weapon("Iron Sword", 10, 0);
         list.add(e);
-        e = new Weapon("Gold Sword", 0, 15, 0);
+        e = new Weapon("Gold Sword", 15, 0);
         list.add(e);
-        e = new Weapon("Diamond Sword", 0, 25, 0);
+        e = new Weapon("Diamond Sword", 25, 0);
         list.add(e);
-        e = new Weapon("Nightedge", 0, 30, 0);
+        e = new Weapon("Nightedge", 30, 0);
         list.add(e);
-        e = new Weapon("Blade of The Ruin King", 0, 40, 0);
+        e = new Weapon("Blade of The Ruin King", 40, 0);
         list.add(e);
-        e = new Weapon("Terra Blade", 0, 100, 0);
+        e = new Weapon("Terra Blade", 100, 0);
         list.add(e);
         
-        Armor d = new Armor("Copper Armor", 10, 0, 1);
+        Armor d = new Armor("Copper Plate", 10, 1);
         list.add(d);
-        d = new Armor("Iron Plate", 15, 0, 0);
+        d = new Armor("Iron Plate", 15, 0);
         list.add(d);
-        d = new Armor("Gold Plate", 25, 0, 0);
+        d = new Armor("Gold Plate", 25, 0);
         list.add(d);
-        d = new Armor("Diamond Plate", 40, 0, 0);
+        d = new Armor("Diamond Plate", 40, 0);
         list.add(d);
-        d = new Armor("Galakrond Plate", 60, 0, 0);
+        d = new Armor("Galakrond Plate", 60, 0);
         list.add(d);
-        d = new Armor("Mirror Plate", 30, 0, 0);
+        d = new Armor("Mirror Plate", 30, 0);
         list.add(d);
-        d = new Armor("Terra Plate", 100, 0, 0);
+        d = new Armor("Terra Plate", 100, 0);
         list.add(d);
+
+        player.setName(name);
+        player.setEquipWeapon(list.get(0).getName());
+        player.setAp(list.get(0).getAp() + base_char_attack);
+        player.setEquipArmor(list.get(7).getName());
+        player.setHp(list.get(7).getHp() + base_char_hp);
     }
 
     public void print(){
-        for(int x = 0; x <= 10; x++){
+        for(int x = 0; x <= 20; x++){
             System.out.println("");
         }
     }
@@ -330,6 +405,8 @@ public class Main {
     public Main() {
         init();
         menu();
+        sc.close();
+        list.clear();
     }
 
     public static void main(String args[]){

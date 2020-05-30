@@ -1,6 +1,5 @@
 package rpg;
 
-// TODO: Check Equipment Class
 public abstract class equipment{
     private String name;
     private int count;
