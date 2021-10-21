@@ -1,4 +1,4 @@
-# JavaLearning
+# RPG Java Console
 
 Simple Games Made by:
 1. Raymond Rafael Chen
